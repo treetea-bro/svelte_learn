@@ -8,7 +8,7 @@
 	<h2 class="text-3xl font-bold tracking-tight capitalize">dashboard</h2>
 	<div class="grid gap-4 md:grid-cols-2">
 		<Card.Root>
-			<Card.Celler class="flex items-center justify-between pb-2">
+			<Card.Header class="flex items-center justify-between pb-2">
 				<Card.Title class="text-sm font-medium">Total revenue</Card.Title>
 				<ShoppingCartIcon class="text-muted-foreground size-4" />
 			</Card.Header>
@@ -19,7 +19,7 @@
 		</Card.Root>
 
 		<Card.Root>
-			<Card.Celler class="flex items-center justify-between pb-2">
+			<Card.Header class="flex items-center justify-between pb-2">
 				<Card.Title class="text-sm font-medium">New Customers</Card.Title>
 				<ArrowUpIcon class="text-muted-foreground size-4" />
 			</Card.Header>

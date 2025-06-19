@@ -1,8 +1,8 @@
 import { superValidate } from 'sveltekit-superforms';
-import { effect } from 'sveltekit-superforms/adapters';
 import { message } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
-import { productSchema } from '$lib/schemas/products.js';
+import { productSchema } from '$lib/schemas/product.js';
+import { effect, zod } from 'sveltekit-superforms/adapters';
 
 export const load = async () => {
 	return { form: await superValidate(effect(productSchema)) };
@@ -10,16 +10,15 @@ export const load = async () => {
 
 export const actions = {
 	default: async ({ request }) => {
-		const form = await superValidate(request, effect(productSchema));
-		console.log(form);
+		const formData = await request.formData();
+		const form = await superValidate(formData, effect(productSchema));
 
-		if (!form.valid) {
-			return fail(400, { form });
-		}
+		if (!form.valid) return fail(400, { form });
 
-		// TODO: Do something with the validated form.data
+		const image = formData.get('images');
+		// if (image instanceof File) {
+		// }
 
-		// Return the form with a status message
-		return message(form, 'Form posted successfully!');
+		return message(form, 'Thank you for uploading an image!');
 	}
 };

@@ -2,9 +2,10 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import * as Form from '$lib/components/ui/form/index';
 	import Input from '$lib/components/ui/input/input.svelte';
-	import { productSchema } from '$lib/schemas/products.js';
+	import { productSchema } from '$lib/schemas/product.js';
+	import { Loader2 } from '@lucide/svelte';
 	import { filesProxy, superForm } from 'sveltekit-superforms';
-	import { effectClient } from 'sveltekit-superforms/adapters';
+	import { effectClient, zodClient } from 'sveltekit-superforms/adapters';
 
 	let { data } = $props();
 	const form = superForm(data.form, {
@@ -30,65 +31,65 @@
 				<Card.Title>Product Information</Card.Title>
 			</Card.Header>
 			<Card.Content class="space-y-4">
-				<Form.Field {form} name="name">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label>Product Name</Form.Label>
-							<Input {...props} bind:value={$formData.name} />
-						{/snippet}
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-
-				<Form.Field {form} name="description">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label>Description</Form.Label>
-							<Input {...props} bind:value={$formData.description} />
-						{/snippet}
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-
-				<Form.Field {form} name="price">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label>Price</Form.Label>
-							<Input {...props} type="number" bind:value={$formData.price} />
-						{/snippet}
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-
-				<Form.Field {form} name="stock">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label>Stock</Form.Label>
-							<Input {...props} type="number" bind:value={$formData.stock} />
-						{/snippet}
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-
-				<Form.Field {form} name="category">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label>Category</Form.Label>
-							<Input {...props} type="number" bind:value={$formData.category} />
-						{/snippet}
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-
-				<Form.Field {form} name="subCategory">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label>Sub Category</Form.Label>
-							<Input {...props} bind:value={$formData.subCategory} />
-						{/snippet}
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
+				<!-- <Form.Field {form} name="name"> -->
+				<!-- 	<Form.Control> -->
+				<!-- 		{#snippet children({ props })} -->
+				<!-- 			<Form.Label>Product Name</Form.Label> -->
+				<!-- 			<Input {...props} bind:value={$formData.name} /> -->
+				<!-- 		{/snippet} -->
+				<!-- 	</Form.Control> -->
+				<!-- 	<Form.FieldErrors /> -->
+				<!-- </Form.Field> -->
+				<!---->
+				<!-- <Form.Field {form} name="description"> -->
+				<!-- 	<Form.Control> -->
+				<!-- 		{#snippet children({ props })} -->
+				<!-- 			<Form.Label>Description</Form.Label> -->
+				<!-- 			<Input {...props} bind:value={$formData.description} /> -->
+				<!-- 		{/snippet} -->
+				<!-- 	</Form.Control> -->
+				<!-- 	<Form.FieldErrors /> -->
+				<!-- </Form.Field> -->
+				<!---->
+				<!-- <Form.Field {form} name="price"> -->
+				<!-- 	<Form.Control> -->
+				<!-- 		{#snippet children({ props })} -->
+				<!-- 			<Form.Label>Price</Form.Label> -->
+				<!-- 			<Input {...props} type="number" bind:value={$formData.price} /> -->
+				<!-- 		{/snippet} -->
+				<!-- 	</Form.Control> -->
+				<!-- 	<Form.FieldErrors /> -->
+				<!-- </Form.Field> -->
+				<!---->
+				<!-- <Form.Field {form} name="stock"> -->
+				<!-- 	<Form.Control> -->
+				<!-- 		{#snippet children({ props })} -->
+				<!-- 			<Form.Label>Stock</Form.Label> -->
+				<!-- 			<Input {...props} type="number" bind:value={$formData.stock} /> -->
+				<!-- 		{/snippet} -->
+				<!-- 	</Form.Control> -->
+				<!-- 	<Form.FieldErrors /> -->
+				<!-- </Form.Field> -->
+				<!---->
+				<!-- <Form.Field {form} name="category"> -->
+				<!-- 	<Form.Control> -->
+				<!-- 		{#snippet children({ props })} -->
+				<!-- 			<Form.Label>Category</Form.Label> -->
+				<!-- 			<Input {...props} type="number" bind:value={$formData.category} /> -->
+				<!-- 		{/snippet} -->
+				<!-- 	</Form.Control> -->
+				<!-- 	<Form.FieldErrors /> -->
+				<!-- </Form.Field> -->
+				<!---->
+				<!-- <Form.Field {form} name="subCategory"> -->
+				<!-- 	<Form.Control> -->
+				<!-- 		{#snippet children({ props })} -->
+				<!-- 			<Form.Label>Sub Category</Form.Label> -->
+				<!-- 			<Input {...props} bind:value={$formData.subCategory} /> -->
+				<!-- 		{/snippet} -->
+				<!-- 	</Form.Control> -->
+				<!-- 	<Form.FieldErrors /> -->
+				<!-- </Form.Field> -->
 
 				<Form.Field {form} name="images">
 					<Form.Control>
@@ -111,10 +112,14 @@
 				</Form.Field>
 				<div class="grid w-fit grid-cols-3 gap-2">
 					{#each previews as preview (preview)}
-						<img src={preview} alt="img" class="bottom-2 size-20 rounded-md" />
+						<img src={preview} alt="img" class="size-20 rounded-md border-2" />
 					{/each}
 				</div>
-				<Form.Button>Add Product</Form.Button>
+				<Form.Button
+					>{#if $delayed}
+						<Loader2 class="size-6 animate-spin" />
+					{/if}Add Product</Form.Button
+				>
 			</Card.Content>
 		</Card.Root>
 	</form>

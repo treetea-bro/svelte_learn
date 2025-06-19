@@ -23,13 +23,13 @@
 			icon: Box
 		},
 		{
-			title: 'User',
-			url: 'user',
+			title: 'Users',
+			url: 'users',
 			icon: User
 		},
 		{
 			title: 'Orders',
-			url: 'order',
+			url: 'orders',
 			icon: Truck
 		},
 		{
