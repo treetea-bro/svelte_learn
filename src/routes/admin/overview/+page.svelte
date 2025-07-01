@@ -1,38 +1,54 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card/index';
-	import * as Table from '$lib/components/ui/table/index';
-	import { ArrowUpIcon, ShoppingCartIcon } from '@lucide/svelte';
+	import {
+		ArrowUpIcon,
+		CheckCircleIcon,
+		ClockIcon,
+		ShoppingCartIcon,
+		Truck
+	} from '@lucide/svelte';
+	import * as Card from '$lib/components/ui/card';
+	import * as Table from '$lib/components/ui/table';
+	import { formatCurrency } from '$lib/utils';
 
 	let { data } = $props();
 </script>
 
 <div class="flex-1 space-y-4 p-8 pt-6">
-	<h2 class="text-3xl font-bold tracking-tight capitalize">dashboard</h2>
+	<h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
 	<div class="grid gap-4 md:grid-cols-2">
 		<Card.Root>
-			<Card.Header class="flex items-center justify-between pb-2">
-				<Card.Title class="text-sm font-medium">Total revenue</Card.Title>
-				<ShoppingCartIcon class="text-muted-foreground size-4" />
+			<Card.Header
+				class="flex flex-row items-center justify-between space-y-0 pb-2"
+			>
+				<Card.Title class="text-sm font-medium">Total Revenue</Card.Title>
+				<ShoppingCartIcon class="text-muted-foreground h-4 w-4" />
 			</Card.Header>
 			<Card.Content>
-				<div class="text-2xl font-bold">$5000</div>
-				<p class="text-muted-foreground text-xs">+50% from laste month</p>
+				<div class="text-2xl font-bold">
+					{formatCurrency(data.totalRevenue)}
+				</div>
+				<p class="text-muted-foreground text-xs">
+					+{data.revenueGrowth}% from last month
+				</p>
 			</Card.Content>
 		</Card.Root>
 
 		<Card.Root>
-			<Card.Header class="flex items-center justify-between pb-2">
+			<Card.Header
+				class="flex flex-row items-center justify-between space-y-0 pb-2"
+			>
 				<Card.Title class="text-sm font-medium">New Customers</Card.Title>
-				<ArrowUpIcon class="text-muted-foreground size-4" />
+				<ArrowUpIcon class="text-muted-foreground h-4 w-4" />
 			</Card.Header>
 			<Card.Content>
-				<div class="text-2xl font-bold">+20</div>
-				<p class="text-muted-foreground text-xs">+20% from laste month</p>
+				<div class="text-2xl font-bold">+{data.newCustomers}</div>
+				<p class="text-muted-foreground text-xs">
+					+{data.userGrowth}% from last month
+				</p>
 			</Card.Content>
 		</Card.Root>
 	</div>
-
-	<Card.Root>
+	<Card.Root class="col-span-5">
 		<Card.Header>
 			<Card.Title>Recent Orders</Card.Title>
 		</Card.Header>
@@ -46,14 +62,28 @@
 						<Table.Head class="text-right">AMT + SHP</Table.Head>
 					</Table.Row>
 				</Table.Header>
-
 				<Table.Body>
-					<Table.Row>
-						<Table.Cell class="font-medium">INV001</Table.Cell>
-						<Table.Cell>Processing</Table.Cell>
-						<Table.Cell>Seungmin Lee</Table.Cell>
-						<Table.Cell class="text-right">$500</Table.Cell>
-					</Table.Row>
+					{#each data.order as { addressId, amount, orderProducts, code, user: { name }, status }}
+						<Table.Row>
+							<Table.Cell class="font-medium">{code}</Table.Cell>
+							<Table.Cell>
+								<div class="flex items-center">
+									{#if status === 'delivered'}
+										<CheckCircleIcon class="mr-2 h-4 w-4 text-green-500" />
+									{:else if status === 'processing'}
+										<ClockIcon class="mr-2 h-4 w-4 text-yellow-500" />
+									{:else if status === 'shipped'}
+										<Truck class="mr-2 h-4 w-4 text-red-500" />
+									{/if}
+									<span>{status}</span>
+								</div>
+							</Table.Cell>
+							<Table.Cell>{name}</Table.Cell>
+							<Table.Cell class="text-right"
+								>{formatCurrency(amount)}</Table.Cell
+							>
+						</Table.Row>
+					{/each}
 				</Table.Body>
 			</Table.Root>
 		</Card.Content>

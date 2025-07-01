@@ -7,7 +7,7 @@ export const load = async ({ locals: { db } }) => {
 		currentDate.getTime() - 60 * 24 * 60 * 60 * 1000
 	);
 
-	const batch = await db.batch([
+	const batch = await Promise.all([
 		db.query.orderTable.findMany({
 			with: {
 				orderProducts: {
