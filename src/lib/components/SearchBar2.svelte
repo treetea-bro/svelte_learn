@@ -10,7 +10,7 @@
 		e.preventDefault();
 		goto(`/search?term=${value}`);
 	}}
-	class="focus-within:ring-primary bg-muted flex w-full items-center justify-between rounded-3xl focus-within:ring-2"
+	class="focus-within:ring-primary bg-muted flex w-full items-center justify-between rounded-3xl p-2 focus-within:ring-2"
 >
 	<input
 		placeholder="Search..."

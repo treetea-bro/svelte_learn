@@ -2,6 +2,8 @@
 	import * as Card from '$lib/components/ui/card/index';
 	import * as Table from '$lib/components/ui/table/index';
 	import { ArrowUpIcon, ShoppingCartIcon } from '@lucide/svelte';
+
+	let { data } = $props();
 </script>
 
 <div class="flex-1 space-y-4 p-8 pt-6">
@@ -32,7 +34,7 @@
 
 	<Card.Root>
 		<Card.Header>
-			<Card.Title>Recent Orders Title</Card.Title>
+			<Card.Title>Recent Orders</Card.Title>
 		</Card.Header>
 		<Card.Content>
 			<Table.Root>
